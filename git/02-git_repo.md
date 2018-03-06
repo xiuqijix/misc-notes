@@ -23,6 +23,8 @@
 ### Push branch
     $ git push origin
     $ git push origin xiuqi/de_json (xiuqi/de_json is a name of branch)
+### Push branch to gerrit
+    $ git push origin HEAD:refs/for/master
 
 ### Delete local branch
     $ git branch -D xiuqi/de_json
