@@ -64,14 +64,19 @@ https://codereview.chromium.org/2458453002/
 
 ##### Quaternion Calculation
 https://www.cnblogs.com/mimime/p/6192427.html
+
 欧拉角到四元数：
  
 给定一个欧拉旋转(X, Y, Z)（即分别绕x轴、y轴和z轴旋转X、Y、Z度），则对应的四元数为：
  
 x = sin(Y/2)sin(Z/2)cos(X/2)+cos(Y/2)cos(Z/2)sin(X/2)
+
 y = sin(Y/2)cos(Z/2)cos(X/2)+cos(Y/2)sin(Z/2)sin(X/2)
+
 z = cos(Y/2)sin(Z/2)cos(X/2)-sin(Y/2)cos(Z/2)sin(X/2)
+
 w = cos(Y/2)cos(Z/2)cos(X/2)-sin(Y/2)sin(Z/2)sin(X/2)
+
 q = ((x, y, z), w)
 
 
