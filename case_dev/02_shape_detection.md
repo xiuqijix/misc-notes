@@ -1,0 +1,10 @@
+## Shape Detection
+
+https://wicg.github.io/shape-detection-api/ 
+https://cs.chromium.org/chromium/src/third_party/blink/web_tests/shapedetection/ 
+https://bugs.chromium.org/p/chromium/issues/detail?id=932382 
+
+
+https://cs.chromium.org/chromium/src/third_party/blink/web_tests/shapedetection/ 
+https://cs.chromium.org/chromium/src/third_party/blink/web_tests/fast/shapedetection/ 
+https://cs.chromium.org/chromium/src/third_party/blink/web_tests/http/tests/shapedetection/ 
