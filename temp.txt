@@ -1,0 +1,12 @@
+const buffer = new ArrayBuffer(4);
+new Uint8Array(buffer).set([1, 2, 3, 4]);
+const buffer_view = new Uint8Array(buffer, 1);
+const writer = new NDEFWriter();
+try {
+  await writer.push({ records: [{ recordType: "w3.org:abc", data: buffer_view }] });
+  console.log("done");
+} catch(e) {
+  console.log(e);
+}
+
+TypeError: Failed to execute 'push' on 'NDEFWriter': The data for external type NDEFRecord must be an ArrayBuffer
