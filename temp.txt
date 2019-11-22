@@ -1,12 +1,40 @@
-const buffer = new ArrayBuffer(4);
-new Uint8Array(buffer).set([1, 2, 3, 4]);
-const buffer_view = new Uint8Array(buffer, 1);
-const writer = new NDEFWriter();
-try {
-  await writer.push({ records: [{ recordType: "w3.org:abc", data: buffer_view }] });
-  console.log("done");
-} catch(e) {
-  console.log(e);
-}
+Creating SSL Certificate
+Create the Root Certificate (Done Once)
+Create the Root Key
+The first step is to create the private root key which only takes one step. In the example below, I’m creating a 2048 bit key:
 
-TypeError: Failed to execute 'push' on 'NDEFWriter': The data for external type NDEFRecord must be an ArrayBuffer
+ openssl genrsa -out rootCA.key 2048
+Self-sign this certificate
+ openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.pem
+This will start an interactive script which will ask you for various bits of information. Fill it out as you see fit.
+
+ You are about to be asked to enter information that will be incorporated
+ into your certificate request.
+ What you are about to enter is what is called a Distinguished Name or a DN.
+ There are quite a few fields but you can leave some blank
+ For some fields there will be a default value,
+ If you enter '.', the field will be left blank.
+ -----
+ Country Name (2 letter code) [AU]:US
+ State or Province Name (full name) [Some-State]:Oregon
+ Locality Name (eg, city) []:Portland
+ Organization Name (eg, company) [Internet Widgits Pty Ltd]:Overlords
+ Organizational Unit Name (eg, section) []:IT
+ Common Name (eg, YOUR name) []:Data Center Overlords
+ Email Address []:none@none.com
+Once done, this will create an SSL certificate called rootCA.pem
+
+Create A Certificate(Done Once Per Device)
+Every device that you wish to install a trusted certificate will need to go through this process. First, just like with the root CA step, you’ll need to create a private key (different from the root CA).
+
+ openssl genrsa -out device.key 2048
+Once the key is created, you’ll generate the certificate signing request.
+
+ openssl req -new -key device.key -out device.csr
+You’ll be asked various questions (Country, State/Province, etc.). Answer them how you see fit. The important question to answer though is common-name.
+
+ Common Name (eg, YOUR name) []: wts.sh.intel.com
+Whatever you see in the address field in your browser when you go to your device must be what you put under common name, even if it’s an IP address. Yes, even an IP (IPv4 or IPv6) address works under common name. If it doesn’t match, even a properly signed certificate will not validate correctly and you’ll get the “cannot verify authenticity” error. Once that’s done, you’ll sign the CSR, which requires the CA root key.
+
+ openssl x509 -req -in device.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out device.crt -days 500 -sha256
+This creates a signed certificate called device.crt which is valid for 500 days.
