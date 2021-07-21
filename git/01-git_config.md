@@ -12,3 +12,5 @@
     $ git config --global -l
 ### Config cache to remember password
     $ git config --global credential.helper cache 'cache --timeout=3600'
+### Reset password
+    $ git config --global user.password "***"
